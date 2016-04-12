@@ -41,4 +41,13 @@ class GameActivity : AppCompatActivity(), GameView {
         }
         placeList[place.x][place.y].setBackgroundColor(imageRes)
     }
+
+    override fun setCurrentPlayerText(player: Stone) {
+        val color = when (player) {
+            Stone.BLACK -> "黒"
+            Stone.WHITE -> "白"
+            Stone.NONE -> throw IllegalArgumentException()
+        }
+        gameCurrentPlayerText.text = getString(R.string.textGameCurrentPlayer, color)
+    }
 }

@@ -20,6 +20,7 @@ class GamePresenter {
 
     fun onCreate(view: GameView) {
         this.view = view
+        view.setCurrentPlayerText(Stone.BLACK)
         putStone(CENTER_LEFT_UP)
         putStone(CENTER_LEFT_UNDER)
         putStone(CENTER_RIGHT_UP)
@@ -39,6 +40,7 @@ class GamePresenter {
     @VisibleForTesting
     fun changePlayer() {
         currentPlayer = currentPlayer.other()
+        view?.setCurrentPlayerText(currentPlayer)
     }
 
     private fun canPut(x: Int, y: Int) = boardStatus[x][y].stone == Stone.NONE && getCanChangePlaces(Place(x, y, currentPlayer)).isNotEmpty()

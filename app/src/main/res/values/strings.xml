@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">kotlin-osero</string>
+
+    <string name="textGameCurrentPlayer">%1$sのターンです。</string>
 </resources>

@@ -7,11 +7,18 @@
     <GridLayout
         android:id="@+id/gamePlacesGrid"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:columnCount="8"
         android:orientation="vertical"
         android:rowCount="8">
 
     </GridLayout>
+
+    <TextView
+        android:id="@+id/gameCurrentPlayerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textGameCurrentPlayer"
+        android:textColor="@android:color/black" />
 
 </LinearLayout>
