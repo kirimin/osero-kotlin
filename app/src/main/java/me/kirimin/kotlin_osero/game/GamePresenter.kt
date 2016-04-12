@@ -57,6 +57,10 @@ class GamePresenter {
                 .plus(searchChangePlacesLeft(target))
                 .plus(searchChangePlacesUp(target))
                 .plus(searchChangePlacesUnder(target))
+                .plus(searchChangePlacesUpperLeft(target))
+                .plus(searchChangePlacesDownRight(target))
+                .plus(searchChangePlacesUpperRight(target))
+                .plus(searchChangePlacesDownLeft(target))
     }
 
     /** 置いた石から右方向にひっくり返せる石のリストを返す */
@@ -95,6 +99,46 @@ class GamePresenter {
                 .take(target.y) // targetより上の行だけ抽出
                 .reversed() // 上方向だと辿りにくいのでリスト反転
         return getInsidePlaces(target, upPlaces)
+    }
+
+    /** 置いた石から左上方向にひっくり返せる石のリストを返す */
+    private fun searchChangePlacesUpperLeft(target: Place): List<Place> {
+        if (target.x == 0 || target.y == 0) return emptyList()
+
+        val upperLeftPlaces = boardStatus.flatMap { it }
+                .filter { it.x < target.x && it.y < target.y } // targetより左上だけ抽出
+                .filter { it.x - it.y == target.x - target.y } // 斜めのライン上だけ抽出
+                .reversed()
+        return getInsidePlaces(target, upperLeftPlaces)
+    }
+
+    /** 置いた石から右下方向にひっくり返せる石のリストを返す */
+    private fun searchChangePlacesDownRight(target: Place): List<Place> {
+        if (target.x + 1 > BOARD_SIZE - 1 || target.y + 1 > BOARD_SIZE - 1) return emptyList()
+
+        val downRightPlaces = boardStatus.flatMap { it }
+                .filter { it.x > target.x && it.y > target.y }
+                .filter { it.x - it.y == target.x - target.y } // 斜めのライン上だけ抽出
+        return getInsidePlaces(target, downRightPlaces)
+    }
+
+    private fun searchChangePlacesUpperRight(target: Place): List<Place> {
+        if (target.x + 1 > BOARD_SIZE || target.y == 0) return emptyList()
+
+        val upperRightPlaces = boardStatus.flatMap { it }
+                .filter { it.x > target.x && it.y < target.y }
+                .filter { it.x + it.y == target.x + target.y }
+        return getInsidePlaces(target, upperRightPlaces)
+    }
+
+    private fun searchChangePlacesDownLeft(target: Place): List<Place> {
+        if (target.x == 0 || target.y + 1 > BOARD_SIZE - 1) return emptyList()
+
+        val downLeftPlaces = boardStatus.flatMap { it }
+                .filter { it.x < target.x && it.y > target.y }
+                .filter { it.x + it.y == target.x + target.y }
+                .reversed()
+        return getInsidePlaces(target, downLeftPlaces)
     }
 
     /** targetを始点として挟めている範囲を判定して返す */

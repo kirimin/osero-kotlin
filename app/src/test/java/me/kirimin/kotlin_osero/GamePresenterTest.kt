@@ -87,4 +87,47 @@ class GamePresenterTest {
         // 挟んだ石が変わる
         verify(viewMock, times(1)).putStone(Place(4, 3, Stone.BLACK))
     }
+
+    @Test
+    @JvmName(name = "斜めに挟むと色が変わる")
+    fun changeStoneAtDiagonal() {
+        presenter.onCreate(viewMock)
+        // 左上
+        presenter.putStone(Place(5, 5, Stone.WHITE))
+        presenter.putStone(Place(6, 6, Stone.WHITE))
+        presenter.onClickPlace(7, 7)
+
+        verify(viewMock, times(1)).putStone(Place(5, 5, Stone.BLACK))
+        verify(viewMock, times(1)).putStone(Place(6, 6, Stone.BLACK))
+        verify(viewMock, times(1)).putStone(Place(7, 7, Stone.BLACK))
+
+        // 右下
+        presenter.changePlayer()
+        presenter.putStone(Place(2, 2, Stone.WHITE))
+        presenter.putStone(Place(1, 1, Stone.WHITE))
+        presenter.onClickPlace(0, 0)
+
+        verify(viewMock, times(1)).putStone(Place(1, 1, Stone.BLACK))
+        verify(viewMock, times(1)).putStone(Place(2, 2, Stone.BLACK))
+        verify(viewMock, times(1)).putStone(Place(3, 3, Stone.BLACK))
+
+        // 右上
+        presenter.putStone(Place(2, 5, Stone.BLACK))
+        presenter.putStone(Place(1, 6, Stone.BLACK))
+        presenter.onClickPlace(0, 7)
+
+        verify(viewMock, times(1)).putStone(Place(2, 5, Stone.WHITE))
+        verify(viewMock, times(1)).putStone(Place(1, 6, Stone.WHITE))
+        verify(viewMock, times(1)).putStone(Place(0, 7, Stone.WHITE))
+
+        // 左下
+        presenter.changePlayer()
+        presenter.putStone(Place(5, 2, Stone.BLACK))
+        presenter.putStone(Place(6, 1, Stone.BLACK))
+        presenter.onClickPlace(7, 0)
+
+        verify(viewMock, times(1)).putStone(Place(5, 2, Stone.WHITE))
+        verify(viewMock, times(1)).putStone(Place(6, 1, Stone.WHITE))
+        verify(viewMock, times(1)).putStone(Place(7, 0, Stone.WHITE))
+    }
 }
