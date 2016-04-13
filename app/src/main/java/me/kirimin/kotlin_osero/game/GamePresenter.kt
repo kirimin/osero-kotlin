@@ -28,13 +28,23 @@ class GamePresenter {
     }
 
     fun onClickPlace(x: Int, y: Int) {
-        if (!canPut(x, y)) {
+        val view = view ?: return
+        val clickPlace = Place(x, y, currentPlayer)
+        if (!canPut(clickPlace)) {
             return
         }
-        val clickPlace = Place(x, y, currentPlayer)
         putStone(clickPlace)
         getCanChangePlaces(clickPlace).forEach { putStone(it) }
+
+        if (isGameOver()) {
+            val blackCount = countStones(Stone.BLACK)
+            val whiteCount = countStones(Stone.WHITE)
+            view.showWinner(if (blackCount > whiteCount) Stone.BLACK else Stone.WHITE, blackCount, whiteCount)
+            view.finishGame()
+        }
         changePlayer()
+        // パス
+        if (!canNext(currentPlayer)) changePlayer()
     }
 
     @VisibleForTesting
@@ -43,8 +53,22 @@ class GamePresenter {
         view?.setCurrentPlayerText(currentPlayer)
     }
 
-    private fun canPut(x: Int, y: Int) = boardStatus[x][y].stone == Stone.NONE && getCanChangePlaces(Place(x, y, currentPlayer)).isNotEmpty()
+    /** 次のターンで置ける場所がまだ存在するか */
+    private fun canNext(color: Stone): Boolean {
+        boardStatus.flatMap { it }.forEach { if (canPut(Place(it.x, it.y, color))) return true }
+        return false
+    }
 
+    /** 指定された場所に石を置けるか */
+    private fun canPut(place: Place) = boardStatus[place.x][place.y].stone == Stone.NONE && getCanChangePlaces(place).isNotEmpty()
+
+    /** 石の数を数える */
+    private fun countStones(color: Stone) = boardStatus.flatMap { it }.count { it.stone == color }
+
+    /** ゲームが終了しているか */
+    private fun isGameOver() = !canNext(Stone.BLACK) && !canNext(Stone.WHITE)
+
+    /** 指定した位置に石を置く */
     @VisibleForTesting
     fun putStone(place: Place) {
         boardStatus[place.x][place.y].stone = place.stone
@@ -122,6 +146,7 @@ class GamePresenter {
         return getInsidePlaces(target, downRightPlaces)
     }
 
+    /** 置いた石から右上方向にひっくり返せる石のリストを返す */
     private fun searchChangePlacesUpperRight(target: Place): List<Place> {
         if (target.x + 1 > BOARD_SIZE || target.y == 0) return emptyList()
 
@@ -131,6 +156,7 @@ class GamePresenter {
         return getInsidePlaces(target, upperRightPlaces)
     }
 
+    /** 置いた石から左下方向にひっくり返せる石のリストを返す */
     private fun searchChangePlacesDownLeft(target: Place): List<Place> {
         if (target.x == 0 || target.y + 1 > BOARD_SIZE - 1) return emptyList()
 
