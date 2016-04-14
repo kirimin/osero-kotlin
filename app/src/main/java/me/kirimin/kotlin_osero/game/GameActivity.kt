@@ -10,7 +10,7 @@ import me.kirimin.kotlin_osero.R
 
 import kotlinx.android.synthetic.main.activity_game.*
 import me.kirimin.kotlin_osero.TopActivity
-import me.kirimin.kotlin_osero.model.AIRandom
+import me.kirimin.kotlin_osero.model.ai.AIRandom
 import me.kirimin.kotlin_osero.model.Stone
 import me.kirimin.kotlin_osero.model.Place
 
@@ -18,15 +18,15 @@ class GameActivity : AppCompatActivity(), GameView {
 
     lateinit var placeList: List<List<ImageView>>
     val presenter = GamePresenter()
-    val BOARD_SIZE = presenter.BOARD_SIZE
+    val boardSize = presenter.boardSize
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
         // 二次元配列にマッピングしながらGridLayoutにマスを設定
-        placeList = arrayOfNulls<List<ImageView>>(BOARD_SIZE)
+        placeList = arrayOfNulls<List<ImageView>>(boardSize)
                 .mapIndexed { x, list ->
-                    arrayOfNulls<ImageView>(BOARD_SIZE).mapIndexed { y, imageView ->
+                    arrayOfNulls<ImageView>(boardSize).mapIndexed { y, imageView ->
                         val place = layoutInflater.inflate(R.layout.grid_place, null)
                         place.setOnClickListener { presenter.onClickPlace(x, y) }
                         gamePlacesGrid.addView(place)
