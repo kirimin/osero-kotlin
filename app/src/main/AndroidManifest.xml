@@ -8,14 +8,18 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TopActivity">
+        <activity
+            android:name=".TopActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".game.GameActivity" />
+        <activity
+            android:name=".game.GameActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

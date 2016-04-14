@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="16dp"
     android:orientation="vertical">
 
     <GridLayout
         android:id="@+id/gamePlacesGrid"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:columnCount="8"
         android:orientation="vertical"
         android:rowCount="8">
@@ -18,7 +20,9 @@
         android:id="@+id/gameCurrentPlayerText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:text="@string/textGameCurrentPlayer"
+        android:textSize="16sp"
         android:textColor="@android:color/black" />
 
 </LinearLayout>
