@@ -1,6 +1,8 @@
 package me.kirimin.kotlin_osero.game
 
 import android.support.annotation.VisibleForTesting
+import me.kirimin.kotlin_osero.model.AINone
+import me.kirimin.kotlin_osero.model.OseroAI
 import me.kirimin.kotlin_osero.model.Stone
 import me.kirimin.kotlin_osero.model.Place
 
@@ -14,12 +16,16 @@ class GamePresenter {
 
     private var view: GameView? = null
     /** 盤の状態を2次元配列で保持 */
-    private val boardStatus = arrayOfNulls<List<Place>>(BOARD_SIZE).mapIndexed { x, list -> arrayOfNulls<Place>(BOARD_SIZE).mapIndexed { y, place -> Place(x, y, Stone.NONE) } }
+    val boardStatus = arrayOfNulls<List<Place>>(BOARD_SIZE).mapIndexed { x, list -> arrayOfNulls<Place>(BOARD_SIZE).mapIndexed { y, place -> Place(x, y, Stone.NONE) } }
     /** 現在どちらのターンか **/
-    private var currentPlayer = Stone.BLACK
+    var currentPlayer = Stone.BLACK
+        private set
 
-    fun onCreate(view: GameView) {
+    private lateinit var ai: OseroAI
+
+    fun onCreate(view: GameView, ai: OseroAI = AINone()) {
         this.view = view
+        this.ai = ai
         view.setCurrentPlayerText(Stone.BLACK)
         putStone(CENTER_LEFT_UP)
         putStone(CENTER_LEFT_UNDER)
@@ -44,7 +50,15 @@ class GamePresenter {
         }
         changePlayer()
         // パス
-        if (!canNext(currentPlayer)) changePlayer()
+        if (!canNext(currentPlayer)) {
+            changePlayer()
+            return
+        }
+        // AI
+        if (ai !is AINone && currentPlayer == Stone.WHITE) {
+            val choseByAI = ai.computeNext(this)
+            onClickPlace(choseByAI.x, choseByAI.y)
+        }
     }
 
     @VisibleForTesting
@@ -60,7 +74,7 @@ class GamePresenter {
     }
 
     /** 指定された場所に石を置けるか */
-    private fun canPut(place: Place) = boardStatus[place.x][place.y].stone == Stone.NONE && getCanChangePlaces(place).isNotEmpty()
+    fun canPut(place: Place) = boardStatus[place.x][place.y].stone == Stone.NONE && getCanChangePlaces(place).isNotEmpty()
 
     /** 石の数を数える */
     private fun countStones(color: Stone) = boardStatus.flatMap { it }.count { it.stone == color }

@@ -10,6 +10,7 @@ import me.kirimin.kotlin_osero.R
 
 import kotlinx.android.synthetic.main.activity_game.*
 import me.kirimin.kotlin_osero.TopActivity
+import me.kirimin.kotlin_osero.model.AIRandom
 import me.kirimin.kotlin_osero.model.Stone
 import me.kirimin.kotlin_osero.model.Place
 
@@ -32,7 +33,7 @@ class GameActivity : AppCompatActivity(), GameView {
                         place.findViewById(R.id.gamePlaceImageView) as ImageView
                     }
                 }
-        presenter.onCreate(this)
+        presenter.onCreate(this, AIRandom())
     }
 
     override fun putStone(place: Place) {
