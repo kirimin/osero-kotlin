@@ -37,11 +37,11 @@ class GameActivity : AppCompatActivity(), GameView {
 
     override fun putStone(place: Place) {
         val imageRes = when (place.stone) {
-            Stone.BLACK -> Color.BLACK
-            Stone.WHITE -> Color.WHITE
+            Stone.BLACK -> R.drawable.black_stone
+            Stone.WHITE -> R.drawable.white_stone
             Stone.NONE -> throw IllegalArgumentException()
         }
-        placeList[place.x][place.y].setBackgroundColor(imageRes)
+        placeList[place.x][place.y].setImageResource(imageRes)
     }
 
     override fun setCurrentPlayerText(player: Stone) {
