@@ -1,15 +1,16 @@
 package me.kirimin.kotlin_osero.model
 
-class OseroGame(val boardSize: Int = 8) {
+class OseroGame() {
 
+    val BOARD_SIZE = 8
     // 初期配置石
-    private val CENTER_LEFT_UP = Place(boardSize / 2 - 1, boardSize / 2 - 1, Stone.BLACK)
-    private val CENTER_LEFT_UNDER = Place(boardSize / 2 - 1, boardSize / 2, Stone.WHITE)
-    private val CENTER_RIGHT_UP = Place(boardSize / 2, boardSize / 2 - 1, Stone.WHITE)
-    private val CENTER_RIGHT_UNDER = Place(boardSize / 2, boardSize / 2, Stone.BLACK)
+    private val CENTER_LEFT_UP = Place(BOARD_SIZE / 2 - 1, BOARD_SIZE / 2 - 1, Stone.BLACK)
+    private val CENTER_LEFT_UNDER = Place(BOARD_SIZE / 2 - 1, BOARD_SIZE / 2, Stone.WHITE)
+    private val CENTER_RIGHT_UP = Place(BOARD_SIZE / 2, BOARD_SIZE / 2 - 1, Stone.WHITE)
+    private val CENTER_RIGHT_UNDER = Place(BOARD_SIZE / 2, BOARD_SIZE / 2, Stone.BLACK)
 
     /** 盤の状態を2次元配列で保持 */
-    val boardStatus = arrayOfNulls<List<Place>>(boardSize).mapIndexed { x, list -> arrayOfNulls<Place>(boardSize).mapIndexed { y, place -> Place(x, y, Stone.NONE) } }
+    val boardStatus = arrayOfNulls<List<Place>>(BOARD_SIZE).mapIndexed { x, list -> arrayOfNulls<Place>(BOARD_SIZE).mapIndexed { y, place -> Place(x, y, Stone.NONE) } }
     /** 現在どちらのターンか **/
     var currentPlayer = Stone.BLACK
 
@@ -44,7 +45,7 @@ class OseroGame(val boardSize: Int = 8) {
 
     /** 置いた石から右方向にひっくり返せる石のリストを返す */
     private fun searchChangePlacesRight(target: Place): List<Place> {
-        if (target.x + 1 > boardSize - 1) return emptyList()
+        if (target.x + 1 > BOARD_SIZE - 1) return emptyList()
 
         val rightPlaces = boardStatus.drop(target.x + 1) // targetより右の列だけ抽出
                 .map { it[target.y] } // targetの行だけ取り出す
@@ -64,7 +65,7 @@ class OseroGame(val boardSize: Int = 8) {
 
     /** 置いた石から下方向にひっくり返せる石のリストを返す */
     private fun searchChangePlacesUnder(target: Place): List<Place> {
-        if (target.y + 1 > boardSize - 1) return emptyList()
+        if (target.y + 1 > BOARD_SIZE - 1) return emptyList()
 
         val underPlaces = boardStatus[target.x].drop(target.y + 1) // targetより下の行だけ抽出
         return getInsidePlaces(target, underPlaces)
@@ -93,7 +94,7 @@ class OseroGame(val boardSize: Int = 8) {
 
     /** 置いた石から右下方向にひっくり返せる石のリストを返す */
     private fun searchChangePlacesDownRight(target: Place): List<Place> {
-        if (target.x + 1 > boardSize - 1 || target.y + 1 > boardSize - 1) return emptyList()
+        if (target.x + 1 > BOARD_SIZE - 1 || target.y + 1 > BOARD_SIZE - 1) return emptyList()
 
         val downRightPlaces = boardStatus.flatMap { it }
                 .filter { it.x > target.x && it.y > target.y }
@@ -103,7 +104,7 @@ class OseroGame(val boardSize: Int = 8) {
 
     /** 置いた石から右上方向にひっくり返せる石のリストを返す */
     private fun searchChangePlacesUpperRight(target: Place): List<Place> {
-        if (target.x + 1 > boardSize || target.y == 0) return emptyList()
+        if (target.x + 1 > BOARD_SIZE || target.y == 0) return emptyList()
 
         val upperRightPlaces = boardStatus.flatMap { it }
                 .filter { it.x > target.x && it.y < target.y }
@@ -113,7 +114,7 @@ class OseroGame(val boardSize: Int = 8) {
 
     /** 置いた石から左下方向にひっくり返せる石のリストを返す */
     private fun searchChangePlacesDownLeft(target: Place): List<Place> {
-        if (target.x == 0 || target.y + 1 > boardSize - 1) return emptyList()
+        if (target.x == 0 || target.y + 1 > BOARD_SIZE - 1) return emptyList()
 
         val downLeftPlaces = boardStatus.flatMap { it }
                 .filter { it.x < target.x && it.y > target.y }

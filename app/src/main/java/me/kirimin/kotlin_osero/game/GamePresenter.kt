@@ -10,7 +10,7 @@ class GamePresenter {
     private val game: OseroGame = OseroGame()
     private lateinit var ai: OseroAI
     private var view: GameView? = null
-    val boardSize = game.boardSize
+    val boardSize = game.BOARD_SIZE
 
     fun onCreate(view: GameView, ai: OseroAI = AINone()) {
         this.view = view
