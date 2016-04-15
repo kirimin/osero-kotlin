@@ -9,8 +9,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="me.kirimin.kotlin_osero.TopActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/topModeManualButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="@string/textTopModeManualButton" />
+
+    <Button
+        android:id="@+id/topModeAIWeakButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topModeManualButton"
+        android:text="@string/textTopModeAIWeakButton" />
+
+    <Button
+        android:id="@+id/topModeAIStrongButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topModeAIWeakButton"
+        android:text="@string/textTopModeAIStrongButton" />
 </RelativeLayout>

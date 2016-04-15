@@ -1,7 +1,7 @@
 package me.kirimin.kotlin_osero.game
 
+import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.ImageView
@@ -10,9 +10,11 @@ import me.kirimin.kotlin_osero.R
 
 import kotlinx.android.synthetic.main.activity_game.*
 import me.kirimin.kotlin_osero.TopActivity
-import me.kirimin.kotlin_osero.model.ai.AIRandom
 import me.kirimin.kotlin_osero.model.Stone
 import me.kirimin.kotlin_osero.model.Place
+import me.kirimin.kotlin_osero.model.ai.AINone
+import me.kirimin.kotlin_osero.model.ai.AIWeak
+import me.kirimin.kotlin_osero.model.ai.OseroAI
 
 class GameActivity : AppCompatActivity(), GameView {
 
@@ -33,7 +35,8 @@ class GameActivity : AppCompatActivity(), GameView {
                         place.findViewById(R.id.gamePlaceImageView) as ImageView
                     }
                 }
-        presenter.onCreate(this, AIRandom())
+        val ai = intent.getSerializableExtra(EXTRA_NAME_AI) as? OseroAI ?: AINone()
+        presenter.onCreate(this, ai)
     }
 
     override fun putStone(place: Place) {
@@ -66,5 +69,15 @@ class GameActivity : AppCompatActivity(), GameView {
     override fun finishGame() {
         finish()
         startActivity(Intent(this, TopActivity::class.java))
+    }
+
+    companion object {
+        val EXTRA_NAME_AI = "extra_ai"
+
+        fun createIntent(context: Context, ai: OseroAI = AINone()): Intent {
+            val intent = Intent(context, GameActivity::class.java)
+            intent.putExtra(EXTRA_NAME_AI, ai)
+            return intent
+        }
     }
 }

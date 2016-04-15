@@ -3,4 +3,7 @@
 
     <string name="textGameCurrentPlayer">%1$sのターンです。</string>
     <string name="textGameWinner">黒%1$d、白%2$dで%3$sの勝ちです。</string>
+    <string name="textTopModeManualButton">手動モード</string>
+    <string name="textTopModeAIWeakButton">対AI:よわい</string>
+    <string name="textTopModeAIStrongButton">対AI:つよい</string>
 </resources>
