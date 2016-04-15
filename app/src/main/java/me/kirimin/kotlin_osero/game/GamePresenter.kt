@@ -12,17 +12,20 @@ class GamePresenter {
     private var view: GameView? = null
     val boardSize = game.BOARD_SIZE
 
+    /** 現在どちらのターンか **/
+    var currentPlayer = Stone.BLACK
+
     fun onCreate(view: GameView, ai: OseroAI = AINone()) {
         this.view = view
         this.ai = ai
         view.setCurrentPlayerText(Stone.BLACK)
         game.getInitialPlaces().forEach { putStone(it) }
-        view.markCanPutPlaces(game.getAllCanPutPlaces(game.currentPlayer))
+        view.markCanPutPlaces(game.getAllCanPutPlaces(currentPlayer))
     }
 
     fun onClickPlace(x: Int, y: Int) {
         val view = view ?: return
-        val clickPlace = Place(x, y, game.currentPlayer)
+        val clickPlace = Place(x, y, currentPlayer)
         if (!game.canPut(clickPlace)) {
             return
         }
@@ -39,14 +42,14 @@ class GamePresenter {
         }
         // ターン切替
         changePlayer()
-        view.markCanPutPlaces(game.getAllCanPutPlaces(game.currentPlayer))
+        view.markCanPutPlaces(game.getAllCanPutPlaces(currentPlayer))
         // パス
-        if (!game.canNext(game.currentPlayer)) {
+        if (!game.canNext(currentPlayer)) {
             changePlayer()
             return
         }
         // AI
-        if (ai !is AINone && game.currentPlayer == Stone.WHITE) {
+        if (ai !is AINone && currentPlayer == Stone.WHITE) {
             val choseByAI = ai.computeNext(game)
             onClickPlace(choseByAI.x, choseByAI.y)
         }
@@ -55,8 +58,8 @@ class GamePresenter {
     /** ターンを変更する */
     @VisibleForTesting
     fun changePlayer() {
-        game.currentPlayer = game.currentPlayer.other()
-        view?.setCurrentPlayerText(game.currentPlayer)
+        currentPlayer = currentPlayer.other()
+        view?.setCurrentPlayerText(currentPlayer)
     }
 
     /** 指定した位置に石を置く。ターンは切り替わらない */
