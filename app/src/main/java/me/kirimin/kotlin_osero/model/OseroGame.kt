@@ -11,8 +11,6 @@ class OseroGame() {
 
     /** 盤の状態を2次元配列で保持 */
     val boardStatus = arrayOfNulls<List<Place>>(BOARD_SIZE).mapIndexed { x, list -> arrayOfNulls<Place>(BOARD_SIZE).mapIndexed { y, place -> Place(x, y, Stone.NONE) } }
-    /** 現在どちらのターンか **/
-    var currentPlayer = Stone.BLACK
 
     fun getInitialPlaces() = listOf(CENTER_LEFT_UP, CENTER_LEFT_UNDER, CENTER_RIGHT_UP, CENTER_RIGHT_UNDER)
 
