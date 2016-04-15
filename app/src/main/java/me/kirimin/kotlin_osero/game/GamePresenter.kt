@@ -50,7 +50,7 @@ class GamePresenter {
         }
         // AI
         if (ai !is AINone && currentPlayer == Stone.WHITE) {
-            val choseByAI = ai.computeNext(game)
+            val choseByAI = ai.computeNext(game, currentPlayer)
             onClickPlace(choseByAI.x, choseByAI.y)
         }
     }
