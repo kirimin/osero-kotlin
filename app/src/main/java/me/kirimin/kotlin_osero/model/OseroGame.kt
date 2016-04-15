@@ -16,14 +16,14 @@ class OseroGame() {
 
     fun getInitialPlaces() = listOf(CENTER_LEFT_UP, CENTER_LEFT_UNDER, CENTER_RIGHT_UP, CENTER_RIGHT_UNDER)
 
-    /** 次のターンで置ける場所がまだ存在するか */
-    fun canNext(color: Stone): Boolean {
-        boardStatus.flatMap { it }.forEach { if (canPut(Place(it.x, it.y, color))) return true }
-        return false
-    }
-
     /** 指定された場所に石を置けるか */
     fun canPut(place: Place) = boardStatus[place.x][place.y].stone == Stone.NONE && getCanChangePlaces(place).isNotEmpty()
+
+    /** 石を置ける全ての場所 */
+    fun getAllCanPutPlaces(color: Stone) = boardStatus.flatMap { it }.filter { canPut(Place(it.x, it.y, color)) }
+
+    /** 次のターンで置ける場所がまだ存在するか */
+    fun canNext(color: Stone): Boolean = getAllCanPutPlaces(color).isNotEmpty()
 
     /** 石の数を数える */
     fun countStones(color: Stone) = boardStatus.flatMap { it }.count { it.stone == color }

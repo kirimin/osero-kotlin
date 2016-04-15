@@ -17,6 +17,7 @@ class GamePresenter {
         this.ai = ai
         view.setCurrentPlayerText(Stone.BLACK)
         game.getInitialPlaces().forEach { putStone(it) }
+        view.markCanPutPlaces(game.getAllCanPutPlaces(game.currentPlayer))
     }
 
     fun onClickPlace(x: Int, y: Int) {
@@ -25,6 +26,7 @@ class GamePresenter {
         if (!game.canPut(clickPlace)) {
             return
         }
+        view.clearAllMarkPlaces()
         putStone(clickPlace)
         game.getCanChangePlaces(clickPlace).forEach { putStone(it) }
 
@@ -37,6 +39,7 @@ class GamePresenter {
         }
         // ターン切替
         changePlayer()
+        view.markCanPutPlaces(game.getAllCanPutPlaces(game.currentPlayer))
         // パス
         if (!game.canNext(game.currentPlayer)) {
             changePlayer()

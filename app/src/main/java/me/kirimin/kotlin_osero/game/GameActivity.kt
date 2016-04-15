@@ -71,6 +71,14 @@ class GameActivity : AppCompatActivity(), GameView {
         startActivity(Intent(this, TopActivity::class.java))
     }
 
+    override fun markCanPutPlaces(places: List<Place>) {
+        places.forEach { placeList[it.x][it.y].setBackgroundColor(getColor(R.color.green_light)) }
+    }
+
+    override fun clearAllMarkPlaces() {
+        placeList.flatMap { it }.forEach { it.setBackgroundColor(getColor(R.color.green)) }
+    }
+
     companion object {
         val EXTRA_NAME_AI = "extra_ai"
 

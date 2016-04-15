@@ -9,7 +9,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_margin="1dp"
-        android:background="#3A3"
+        android:background="@color/green"
         android:padding="2dp" />
 
 </LinearLayout>
