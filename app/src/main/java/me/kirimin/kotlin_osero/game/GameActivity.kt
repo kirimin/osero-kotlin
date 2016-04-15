@@ -68,7 +68,6 @@ class GameActivity : AppCompatActivity(), GameView {
 
     override fun finishGame() {
         finish()
-        startActivity(Intent(this, TopActivity::class.java))
     }
 
     override fun markCanPutPlaces(places: List<Place>) {
