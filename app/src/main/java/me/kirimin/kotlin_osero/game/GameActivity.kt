@@ -3,6 +3,7 @@ package me.kirimin.kotlin_osero.game
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.ImageView
 import android.widget.Toast
@@ -71,11 +72,11 @@ class GameActivity : AppCompatActivity(), GameView {
     }
 
     override fun markCanPutPlaces(places: List<Place>) {
-        places.forEach { placeList[it.x][it.y].setBackgroundColor(getColor(R.color.green_light)) }
+        places.forEach { placeList[it.x][it.y].setBackgroundColor(ContextCompat.getColor(this, R.color.green_light)) }
     }
 
     override fun clearAllMarkPlaces() {
-        placeList.flatMap { it }.forEach { it.setBackgroundColor(getColor(R.color.green)) }
+        placeList.flatMap { it }.forEach { it.setBackgroundColor(ContextCompat.getColor(this, R.color.green)) }
     }
 
     companion object {
