@@ -10,11 +10,9 @@ import android.widget.Toast
 import me.kirimin.kotlin_osero.R
 
 import kotlinx.android.synthetic.main.activity_game.*
-import me.kirimin.kotlin_osero.TopActivity
 import me.kirimin.kotlin_osero.model.Stone
 import me.kirimin.kotlin_osero.model.Place
 import me.kirimin.kotlin_osero.model.ai.AINone
-import me.kirimin.kotlin_osero.model.ai.AIWeak
 import me.kirimin.kotlin_osero.model.ai.OseroAI
 
 class GameActivity : AppCompatActivity(), GameView {
