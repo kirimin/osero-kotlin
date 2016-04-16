@@ -45,7 +45,9 @@ class GamePresenter {
         view.markCanPutPlaces(game.getAllCanPutPlaces(currentPlayer))
         // パス
         if (!game.canNext(currentPlayer)) {
+            view.clearAllMarkPlaces()
             changePlayer()
+            view.markCanPutPlaces(game.getAllCanPutPlaces(currentPlayer))
             return
         }
         // AI
